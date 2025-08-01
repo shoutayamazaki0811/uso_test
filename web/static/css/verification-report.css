@@ -1,0 +1,573 @@
+/* Profile Verification and Report/Block Styles */
+
+/* Profile Verification */
+.verification-container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+.verification-header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.verification-header h2 {
+    color: var(--text-primary);
+    margin-bottom: 0.5rem;
+}
+
+.verification-header p {
+    color: var(--text-secondary);
+}
+
+/* Progress Bar */
+.verification-progress {
+    margin-bottom: 3rem;
+}
+
+.progress-bar {
+    height: 4px;
+    background: var(--bg-tertiary);
+    border-radius: 2px;
+    overflow: hidden;
+    margin-bottom: 1rem;
+}
+
+.progress-fill {
+    height: 100%;
+    background: var(--accent-color);
+    transition: width 0.3s ease;
+}
+
+.progress-steps {
+    display: flex;
+    justify-content: space-between;
+}
+
+.progress-step {
+    text-align: center;
+    position: relative;
+}
+
+.step-number {
+    width: 32px;
+    height: 32px;
+    background: var(--bg-tertiary);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 0.5rem;
+    font-weight: bold;
+    color: var(--text-secondary);
+    transition: all 0.3s ease;
+}
+
+.progress-step.active .step-number {
+    background: var(--accent-color);
+    color: var(--bg-primary);
+}
+
+.progress-step.completed .step-number {
+    background: var(--success-color);
+    color: white;
+}
+
+.progress-step.completed .step-number::after {
+    content: '✓';
+    position: absolute;
+    font-size: 1.2rem;
+}
+
+.step-label {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+}
+
+/* Verification Content */
+.step-content {
+    margin-bottom: 2rem;
+}
+
+.step-content h3 {
+    color: var(--text-primary);
+    margin-bottom: 1rem;
+}
+
+.id-types {
+    list-style: none;
+    margin: 1rem 0;
+}
+
+.id-types li {
+    padding: 0.5rem 0;
+    color: var(--text-secondary);
+}
+
+.id-types li::before {
+    content: '• ';
+    color: var(--accent-color);
+}
+
+/* Upload Area */
+.upload-area {
+    margin: 2rem 0;
+}
+
+.upload-placeholder {
+    border: 2px dashed var(--border-color);
+    border-radius: 12px;
+    padding: 3rem;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.upload-placeholder:hover {
+    border-color: var(--accent-color);
+    background: var(--bg-tertiary);
+}
+
+.upload-placeholder svg {
+    color: var(--text-secondary);
+    margin-bottom: 1rem;
+}
+
+.upload-placeholder p {
+    color: var(--text-primary);
+    margin-bottom: 0.5rem;
+}
+
+.upload-placeholder small {
+    color: var(--text-secondary);
+}
+
+.upload-preview {
+    position: relative;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.upload-preview img {
+    width: 100%;
+    display: block;
+}
+
+.remove-btn {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    width: 32px;
+    height: 32px;
+    background: rgba(0, 0, 0, 0.6);
+    border: none;
+    border-radius: 50%;
+    color: white;
+    font-size: 1.5rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Camera Container */
+.camera-container {
+    position: relative;
+    margin: 2rem 0;
+}
+
+#selfieVideo {
+    width: 100%;
+    border-radius: 12px;
+    background: var(--bg-tertiary);
+}
+
+.camera-controls {
+    text-align: center;
+    margin-top: 1rem;
+}
+
+.selfie-preview {
+    text-align: center;
+}
+
+.selfie-preview img {
+    max-width: 100%;
+    border-radius: 12px;
+    margin-bottom: 1rem;
+}
+
+/* Selfie Instructions */
+.selfie-instructions {
+    background: var(--bg-secondary);
+    padding: 1.5rem;
+    border-radius: 12px;
+    margin-bottom: 2rem;
+}
+
+.instruction-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.instruction-item:last-child {
+    margin-bottom: 0;
+}
+
+.instruction-item .icon {
+    font-size: 1.5rem;
+}
+
+/* Verification Form */
+.verification-form {
+    margin: 2rem 0;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: var(--text-primary);
+}
+
+.form-input,
+.form-select {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    background: var(--bg-tertiary);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    color: var(--text-primary);
+    font-size: 1rem;
+}
+
+.form-input:focus,
+.form-select:focus {
+    outline: none;
+    border-color: var(--accent-color);
+}
+
+.form-group small {
+    display: block;
+    margin-top: 0.25rem;
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+}
+
+/* Verification Benefits */
+.verification-benefits {
+    background: var(--bg-secondary);
+    padding: 1.5rem;
+    border-radius: 12px;
+    margin-top: 2rem;
+}
+
+.verification-benefits h4 {
+    color: var(--accent-color);
+    margin-bottom: 1rem;
+}
+
+.verification-benefits ul {
+    list-style: none;
+}
+
+.verification-benefits li {
+    padding: 0.5rem 0;
+    color: var(--text-secondary);
+}
+
+/* Security Notice */
+.security-notice {
+    background: var(--bg-secondary);
+    padding: 1rem;
+    border-radius: 8px;
+    margin-top: 1rem;
+}
+
+.security-notice p {
+    margin: 0;
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+}
+
+/* Verification Actions */
+.verification-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+    margin-top: 2rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--border-color);
+}
+
+/* Report/Block Modals */
+.report-modal,
+.block-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 10000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.report-modal.show,
+.block-modal.show {
+    opacity: 1;
+}
+
+.modal-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.8);
+}
+
+.modal-content {
+    position: relative;
+    background: var(--bg-secondary);
+    border-radius: 16px;
+    max-width: 500px;
+    width: 90%;
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+.modal-header {
+    padding: 1.5rem;
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.modal-header h3 {
+    color: var(--text-primary);
+    margin: 0;
+}
+
+.close-btn {
+    background: none;
+    border: none;
+    color: var(--text-secondary);
+    font-size: 1.5rem;
+    cursor: pointer;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-body {
+    padding: 1.5rem;
+}
+
+.report-target {
+    color: var(--text-secondary);
+    margin-bottom: 1.5rem;
+}
+
+.report-target strong {
+    color: var(--text-primary);
+}
+
+.form-textarea {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    background: var(--bg-tertiary);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    color: var(--text-primary);
+    font-size: 1rem;
+    resize: vertical;
+    min-height: 100px;
+}
+
+.report-info {
+    background: var(--bg-tertiary);
+    padding: 1rem;
+    border-radius: 8px;
+    margin-top: 1rem;
+}
+
+.report-info p {
+    margin: 0.5rem 0;
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+}
+
+/* Block Effects */
+.block-effects {
+    background: var(--bg-tertiary);
+    padding: 1.5rem;
+    border-radius: 8px;
+    margin: 1.5rem 0;
+}
+
+.block-effects h4 {
+    color: var(--text-primary);
+    margin-bottom: 1rem;
+}
+
+.block-effects ul {
+    list-style: none;
+}
+
+.block-effects li {
+    padding: 0.5rem 0;
+    color: var(--text-secondary);
+}
+
+.block-effects li::before {
+    content: '• ';
+    color: var(--error-color);
+}
+
+.warning-text {
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+}
+
+.modal-footer {
+    padding: 1.5rem;
+    border-top: 1px solid var(--border-color);
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+}
+
+/* Blocked Users List */
+.blocked-users-section {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+.blocked-users-section h3 {
+    color: var(--text-primary);
+    margin-bottom: 1.5rem;
+}
+
+.blocked-users-list {
+    background: var(--bg-secondary);
+    border-radius: 12px;
+    padding: 1.5rem;
+}
+
+.blocked-user-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.blocked-user-item:last-child {
+    border-bottom: none;
+}
+
+.blocked-user-item .user-avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.blocked-user-item .user-info {
+    flex: 1;
+}
+
+.blocked-user-item h4 {
+    color: var(--text-primary);
+    margin-bottom: 0.25rem;
+}
+
+.blocked-date {
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+}
+
+/* User Actions */
+.user-actions {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 1rem;
+}
+
+.btn-outline {
+    background: transparent;
+    border: 1px solid var(--border-color);
+    color: var(--text-secondary);
+}
+
+.btn-outline:hover {
+    background: var(--bg-tertiary);
+    color: var(--text-primary);
+}
+
+.btn-small {
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
+}
+
+.btn-danger {
+    background: var(--error-color);
+    color: white;
+}
+
+.btn-danger:hover {
+    background: #E53E3E;
+}
+
+/* Empty State */
+.empty-state {
+    text-align: center;
+    color: var(--text-secondary);
+    padding: 3rem;
+}
+
+.error-state {
+    text-align: center;
+    color: var(--error-color);
+    padding: 3rem;
+}
+
+.loading {
+    text-align: center;
+    color: var(--text-secondary);
+    padding: 2rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .verification-container {
+        padding: 1rem;
+    }
+    
+    .modal-content {
+        width: 95%;
+        margin: 1rem;
+    }
+    
+    .progress-step .step-label {
+        font-size: 0.75rem;
+    }
+    
+    .upload-placeholder {
+        padding: 2rem 1rem;
+    }
+}

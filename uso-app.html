@@ -1,0 +1,1135 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>uso - Premium Entertainment Platform</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        :root {
+            /* Colors */
+            --primary: #FF6B6B;
+            --primary-dark: #E55555;
+            --secondary: #4ECDC4;
+            --accent: #FFD93D;
+            --premium-gold: #FFB800;
+            
+            /* Grays */
+            --gray-50: #F9FAFB;
+            --gray-100: #F3F4F6;
+            --gray-200: #E5E7EB;
+            --gray-300: #D1D5DB;
+            --gray-400: #9CA3AF;
+            --gray-500: #6B7280;
+            --gray-600: #4B5563;
+            --gray-700: #374151;
+            --gray-800: #1F2937;
+            --gray-900: #111827;
+            
+            /* Status */
+            --success: #10B981;
+            --warning: #F59E0B;
+            --error: #EF4444;
+            --info: #3B82F6;
+            
+            /* Shadows */
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            
+            /* Radius */
+            --radius-sm: 0.375rem;
+            --radius: 0.5rem;
+            --radius-lg: 0.75rem;
+            --radius-xl: 1rem;
+            --radius-full: 9999px;
+            
+            /* Spacing */
+            --sidebar-width: 280px;
+            --sidebar-collapsed: 80px;
+            --header-height: 64px;
+        }
+
+        body {
+            font-family: 'Inter', 'Noto Sans JP', -apple-system, sans-serif;
+            background-color: var(--gray-50);
+            color: var(--gray-900);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .app-container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* SaaS Sidebar */
+        .sidebar {
+            width: var(--sidebar-width);
+            background: white;
+            border-right: 1px solid var(--gray-200);
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+            transition: all 0.3s ease;
+            z-index: 100;
+        }
+
+        .sidebar.collapsed {
+            width: var(--sidebar-collapsed);
+        }
+
+        .sidebar-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--gray-200);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            font-size: 1.75rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--primary), var(--premium-gold));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            transition: all 0.3s;
+        }
+
+        .sidebar.collapsed .logo {
+            font-size: 1.5rem;
+        }
+
+        .sidebar-toggle {
+            display: none;
+            width: 32px;
+            height: 32px;
+            align-items: center;
+            justify-content: center;
+            background: var(--gray-100);
+            border: 1px solid var(--gray-200);
+            border-radius: var(--radius);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .sidebar-toggle:hover {
+            background: var(--gray-200);
+        }
+
+        .sidebar-nav {
+            padding: 1rem 0;
+        }
+
+        .nav-section {
+            padding: 0.5rem 1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .nav-section-title {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--gray-500);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 0.5rem;
+            transition: all 0.3s;
+        }
+
+        .sidebar.collapsed .nav-section-title {
+            opacity: 0;
+            height: 0;
+            margin: 0;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.625rem 1rem;
+            margin: 0.125rem 0;
+            border-radius: var(--radius);
+            color: var(--gray-700);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.2s;
+            position: relative;
+        }
+
+        .nav-link:hover {
+            background: var(--gray-100);
+            color: var(--gray-900);
+        }
+
+        .nav-link.active {
+            background: var(--primary);
+            color: white;
+        }
+
+        .nav-link.active:hover {
+            background: var(--primary-dark);
+        }
+
+        .nav-icon {
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .nav-text {
+            transition: all 0.3s;
+            white-space: nowrap;
+        }
+
+        .sidebar.collapsed .nav-text {
+            opacity: 0;
+            width: 0;
+            overflow: hidden;
+        }
+
+        .nav-badge {
+            margin-left: auto;
+            padding: 0.125rem 0.5rem;
+            background: var(--error);
+            color: white;
+            font-size: 0.75rem;
+            font-weight: 600;
+            border-radius: var(--radius-full);
+            transition: all 0.3s;
+        }
+
+        .sidebar.collapsed .nav-badge {
+            position: absolute;
+            top: 0.25rem;
+            right: 0.25rem;
+            padding: 0.125rem 0.25rem;
+            font-size: 0.625rem;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            margin-left: var(--sidebar-width);
+            transition: margin-left 0.3s ease;
+            min-height: 100vh;
+            background: var(--gray-50);
+        }
+
+        .sidebar.collapsed ~ .main-content {
+            margin-left: var(--sidebar-collapsed);
+        }
+
+        /* Header */
+        .header {
+            background: white;
+            height: var(--header-height);
+            border-bottom: 1px solid var(--gray-200);
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            display: flex;
+            align-items: center;
+            padding: 0 2rem;
+            gap: 2rem;
+        }
+
+        .header-search {
+            flex: 1;
+            max-width: 600px;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 0.5rem 1rem 0.5rem 2.5rem;
+            background: var(--gray-100);
+            border: 1px solid transparent;
+            border-radius: var(--radius-lg);
+            font-size: 0.875rem;
+            transition: all 0.2s;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%236B7280' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='11' cy='11' r='8'%3E%3C/circle%3E%3Cpath d='m21 21-4.35-4.35'%3E%3C/path%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: 0.75rem center;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            background-color: white;
+            box-shadow: 0 0 0 3px rgba(255, 107, 107, 0.1);
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .header-button {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: white;
+            border: 1px solid var(--gray-200);
+            border-radius: var(--radius);
+            cursor: pointer;
+            transition: all 0.2s;
+            position: relative;
+        }
+
+        .header-button:hover {
+            background: var(--gray-50);
+            border-color: var(--gray-300);
+        }
+
+        .notification-dot {
+            position: absolute;
+            top: 6px;
+            right: 6px;
+            width: 8px;
+            height: 8px;
+            background: var(--error);
+            border-radius: 50%;
+            border: 2px solid white;
+        }
+
+        .user-menu {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.5rem;
+            background: white;
+            border: 1px solid var(--gray-200);
+            border-radius: var(--radius-lg);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .user-menu:hover {
+            background: var(--gray-50);
+            border-color: var(--gray-300);
+        }
+
+        .user-avatar {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+        }
+
+        .user-info {
+            display: flex;
+            flex-direction: column;
+            line-height: 1.2;
+        }
+
+        .user-name {
+            font-size: 0.875rem;
+            font-weight: 600;
+        }
+
+        .user-role {
+            font-size: 0.75rem;
+            color: var(--gray-500);
+        }
+
+        /* Page Content */
+        .page-content {
+            padding: 2rem;
+        }
+
+        .page-header {
+            margin-bottom: 2rem;
+        }
+
+        .page-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--gray-900);
+            margin-bottom: 0.5rem;
+        }
+
+        .page-description {
+            color: var(--gray-600);
+            font-size: 1rem;
+        }
+
+        /* Cards */
+        .card {
+            background: white;
+            border: 1px solid var(--gray-200);
+            border-radius: var(--radius-lg);
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            transition: all 0.2s;
+        }
+
+        .card:hover {
+            box-shadow: var(--shadow-md);
+        }
+
+        /* Cast Grid */
+        .cast-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .cast-card {
+            background: white;
+            border: 1px solid var(--gray-200);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+
+        .cast-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .cast-image {
+            width: 100%;
+            height: 320px;
+            object-fit: cover;
+            background: var(--gray-200);
+            position: relative;
+        }
+
+        .cast-badge {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            padding: 4px 12px;
+            background: var(--primary);
+            color: white;
+            border-radius: var(--radius-full);
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .cast-favorite {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            width: 36px;
+            height: 36px;
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(8px);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .cast-favorite:hover {
+            background: white;
+            transform: scale(1.1);
+        }
+
+        .cast-favorite.active {
+            color: var(--primary);
+        }
+
+        .cast-info {
+            padding: 1.25rem;
+        }
+
+        .cast-name {
+            font-size: 1.125rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .cast-details {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--gray-600);
+            font-size: 0.875rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .cast-price {
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        .cast-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .cast-tag {
+            padding: 0.25rem 0.75rem;
+            background: var(--gray-100);
+            color: var(--gray-700);
+            border-radius: var(--radius-full);
+            font-size: 0.75rem;
+        }
+
+        /* Bottom Navigation (Mobile) */
+        .bottom-nav {
+            display: none;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            border-top: 1px solid var(--gray-200);
+            padding: 0.5rem 0;
+            z-index: 100;
+        }
+
+        .bottom-nav-items {
+            display: flex;
+            justify-content: space-around;
+        }
+
+        .bottom-nav-item {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.25rem;
+            padding: 0.5rem;
+            color: var(--gray-600);
+            text-decoration: none;
+            transition: all 0.2s;
+            position: relative;
+        }
+
+        .bottom-nav-item.active {
+            color: var(--primary);
+        }
+
+        .bottom-nav-icon {
+            font-size: 1.25rem;
+        }
+
+        .bottom-nav-label {
+            font-size: 0.625rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+
+            .sidebar.open {
+                transform: translateX(0);
+            }
+
+            .main-content {
+                margin-left: 0;
+            }
+
+            .sidebar-toggle {
+                display: flex;
+            }
+
+            .header {
+                padding: 0 1rem;
+            }
+
+            .user-info {
+                display: none;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header-search {
+                display: none;
+            }
+
+            .bottom-nav {
+                display: block;
+            }
+
+            .page-content {
+                padding: 1rem;
+                padding-bottom: 80px;
+            }
+
+            .cast-grid {
+                grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+                gap: 1rem;
+            }
+
+            .cast-image {
+                height: 200px;
+            }
+
+            .cast-info {
+                padding: 1rem;
+            }
+
+            .cast-name {
+                font-size: 1rem;
+            }
+
+            .sidebar-toggle {
+                display: none;
+            }
+
+            .mobile-menu-toggle {
+                display: flex;
+                width: 40px;
+                height: 40px;
+                align-items: center;
+                justify-content: center;
+                background: white;
+                border: 1px solid var(--gray-200);
+                border-radius: var(--radius);
+                cursor: pointer;
+            }
+        }
+
+        /* Loading States */
+        .skeleton {
+            background: linear-gradient(90deg, var(--gray-200) 25%, var(--gray-300) 50%, var(--gray-200) 75%);
+            background-size: 200% 100%;
+            animation: loading 1.5s infinite;
+        }
+
+        @keyframes loading {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+
+        /* Hide/Show Elements */
+        .hidden {
+            display: none !important;
+        }
+
+        .mobile-only {
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            .mobile-only {
+                display: block;
+            }
+
+            .desktop-only {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <h1 class="logo">uso</h1>
+                <button class="sidebar-toggle" onclick="toggleSidebar()">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M18 6L6 18M6 6l12 12"/>
+                    </svg>
+                </button>
+            </div>
+
+            <nav class="sidebar-nav">
+                <div class="nav-section">
+                    <div class="nav-section-title">メイン</div>
+                    <a href="#" class="nav-link active" data-page="home">
+                        <span class="nav-icon">🏠</span>
+                        <span class="nav-text">ホーム</span>
+                    </a>
+                    <a href="#" class="nav-link" data-page="search">
+                        <span class="nav-icon">🔍</span>
+                        <span class="nav-text">キャストを探す</span>
+                    </a>
+                    <a href="#" class="nav-link" data-page="likes">
+                        <span class="nav-icon">❤️</span>
+                        <span class="nav-text">いいね！</span>
+                        <span class="nav-badge">12</span>
+                    </a>
+                </div>
+
+                <div class="nav-section">
+                    <div class="nav-section-title">コミュニケーション</div>
+                    <a href="#" class="nav-link" data-page="messages">
+                        <span class="nav-icon">💬</span>
+                        <span class="nav-text">メッセージ</span>
+                        <span class="nav-badge">4</span>
+                    </a>
+                    <a href="#" class="nav-link" data-page="bookings">
+                        <span class="nav-icon">📅</span>
+                        <span class="nav-text">予約管理</span>
+                    </a>
+                </div>
+
+                <div class="nav-section">
+                    <div class="nav-section-title">アカウント</div>
+                    <a href="#" class="nav-link" data-page="profile">
+                        <span class="nav-icon">👤</span>
+                        <span class="nav-text">プロフィール</span>
+                    </a>
+                    <a href="#" class="nav-link" data-page="settings">
+                        <span class="nav-icon">⚙️</span>
+                        <span class="nav-text">設定</span>
+                    </a>
+                    <a href="#" class="nav-link" data-page="billing">
+                        <span class="nav-icon">💳</span>
+                        <span class="nav-text">お支払い</span>
+                    </a>
+                </div>
+
+                <div class="nav-section">
+                    <div class="nav-section-title">サポート</div>
+                    <a href="#" class="nav-link" data-page="help">
+                        <span class="nav-icon">❓</span>
+                        <span class="nav-text">ヘルプ</span>
+                    </a>
+                    <a href="#" class="nav-link" data-page="logout">
+                        <span class="nav-icon">🚪</span>
+                        <span class="nav-text">ログアウト</span>
+                    </a>
+                </div>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Header -->
+            <header class="header">
+                <button class="mobile-menu-toggle mobile-only" onclick="toggleMobileSidebar()">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M3 12h18M3 6h18M3 18h18"/>
+                    </svg>
+                </button>
+
+                <div class="header-search desktop-only">
+                    <input type="text" class="search-input" placeholder="キャスト名やエリアで検索...">
+                </div>
+
+                <div class="header-actions">
+                    <button class="header-button">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+                            <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+                        </svg>
+                        <span class="notification-dot"></span>
+                    </button>
+
+                    <div class="user-menu">
+                        <div class="user-avatar">Y</div>
+                        <div class="user-info">
+                            <div class="user-name">山田 太郎</div>
+                            <div class="user-role">プレミアム会員</div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Page Content -->
+            <div class="page-content" id="pageContent">
+                <!-- Home Page -->
+                <div id="homePage" class="page">
+                    <div class="page-header">
+                        <h1 class="page-title">ダッシュボード</h1>
+                        <p class="page-description">あなたへのおすすめキャストをご紹介</p>
+                    </div>
+
+                    <div class="card">
+                        <h2 style="font-size: 1.25rem; margin-bottom: 1rem;">本日の無料いいね！ 🎁</h2>
+                        <p style="color: var(--gray-600); margin-bottom: 1rem;">今日はあと3回無料でいいね！を送れます</p>
+                        <button style="padding: 0.75rem 1.5rem; background: var(--primary); color: white; border: none; border-radius: var(--radius); font-weight: 600; cursor: pointer;">
+                            キャストを探す
+                        </button>
+                    </div>
+
+                    <h2 style="font-size: 1.5rem; margin-bottom: 1rem;">新着キャスト ✨</h2>
+                    <div class="cast-grid">
+                        <div class="cast-card">
+                            <div class="cast-image">
+                                <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=400&h=320&fit=crop" alt="Yuki" style="width: 100%; height: 100%; object-fit: cover;">
+                                <span class="cast-badge">NEW</span>
+                                <button class="cast-favorite" onclick="toggleFavorite(this)">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+                                    </svg>
+                                </button>
+                            </div>
+                            <div class="cast-info">
+                                <h3 class="cast-name">Yuki</h3>
+                                <div class="cast-details">
+                                    <span>⭐ 4.9</span>
+                                    <span>•</span>
+                                    <span>25歳</span>
+                                    <span>•</span>
+                                    <span class="cast-price">¥15,000/h</span>
+                                </div>
+                                <div class="cast-tags">
+                                    <span class="cast-tag">六本木</span>
+                                    <span class="cast-tag">英語OK</span>
+                                    <span class="cast-tag">モデル</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="cast-card">
+                            <div class="cast-image">
+                                <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=400&h=320&fit=crop" alt="Sakura" style="width: 100%; height: 100%; object-fit: cover;">
+                                <button class="cast-favorite" onclick="toggleFavorite(this)">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+                                    </svg>
+                                </button>
+                            </div>
+                            <div class="cast-info">
+                                <h3 class="cast-name">Sakura</h3>
+                                <div class="cast-details">
+                                    <span>⭐ 5.0</span>
+                                    <span>•</span>
+                                    <span>28歳</span>
+                                    <span>•</span>
+                                    <span class="cast-price">¥20,000/h</span>
+                                </div>
+                                <div class="cast-tags">
+                                    <span class="cast-tag">銀座</span>
+                                    <span class="cast-tag">VIP</span>
+                                    <span class="cast-tag">元CA</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="cast-card">
+                            <div class="cast-image">
+                                <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&h=320&fit=crop" alt="Mio" style="width: 100%; height: 100%; object-fit: cover;">
+                                <span class="cast-badge">人気</span>
+                                <button class="cast-favorite" onclick="toggleFavorite(this)">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+                                    </svg>
+                                </button>
+                            </div>
+                            <div class="cast-info">
+                                <h3 class="cast-name">Mio</h3>
+                                <div class="cast-details">
+                                    <span>⭐ 4.8</span>
+                                    <span>•</span>
+                                    <span>26歳</span>
+                                    <span>•</span>
+                                    <span class="cast-price">¥12,000/h</span>
+                                </div>
+                                <div class="cast-tags">
+                                    <span class="cast-tag">渋谷</span>
+                                    <span class="cast-tag">フレンドリー</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="cast-card">
+                            <div class="cast-image">
+                                <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=320&fit=crop" alt="Rina" style="width: 100%; height: 100%; object-fit: cover;">
+                                <button class="cast-favorite" onclick="toggleFavorite(this)">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+                                    </svg>
+                                </button>
+                            </div>
+                            <div class="cast-info">
+                                <h3 class="cast-name">Rina</h3>
+                                <div class="cast-details">
+                                    <span>⭐ 4.7</span>
+                                    <span>•</span>
+                                    <span>24歳</span>
+                                    <span>•</span>
+                                    <span class="cast-price">¥10,000/h</span>
+                                </div>
+                                <div class="cast-tags">
+                                    <span class="cast-tag">新宿</span>
+                                    <span class="cast-tag">学生</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Search Page -->
+                <div id="searchPage" class="page hidden">
+                    <div class="page-header">
+                        <h1 class="page-title">キャストを探す</h1>
+                        <p class="page-description">条件に合うキャストを見つけましょう</p>
+                    </div>
+
+                    <div class="card">
+                        <h3 style="margin-bottom: 1rem;">検索フィルター</h3>
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
+                            <div>
+                                <label style="display: block; margin-bottom: 0.5rem; font-weight: 500;">エリア</label>
+                                <select style="width: 100%; padding: 0.5rem; border: 1px solid var(--gray-300); border-radius: var(--radius);">
+                                    <option>すべてのエリア</option>
+                                    <option>六本木</option>
+                                    <option>銀座</option>
+                                    <option>渋谷</option>
+                                    <option>新宿</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label style="display: block; margin-bottom: 0.5rem; font-weight: 500;">料金</label>
+                                <select style="width: 100%; padding: 0.5rem; border: 1px solid var(--gray-300); border-radius: var(--radius);">
+                                    <option>すべての料金</option>
+                                    <option>¥10,000以下</option>
+                                    <option>¥10,000 - ¥20,000</option>
+                                    <option>¥20,000以上</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label style="display: block; margin-bottom: 0.5rem; font-weight: 500;">年齢</label>
+                                <select style="width: 100%; padding: 0.5rem; border: 1px solid var(--gray-300); border-radius: var(--radius);">
+                                    <option>すべての年齢</option>
+                                    <option>20-25歳</option>
+                                    <option>26-30歳</option>
+                                    <option>31歳以上</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="margin-top: 2rem;">
+                        <p style="color: var(--gray-600); margin-bottom: 1rem;">検索結果: 128名</p>
+                        <!-- Cast grid would be populated here -->
+                    </div>
+                </div>
+
+                <!-- Messages Page -->
+                <div id="messagesPage" class="page hidden">
+                    <div class="page-header">
+                        <h1 class="page-title">メッセージ</h1>
+                        <p class="page-description">マッチしたキャストとチャット</p>
+                    </div>
+
+                    <div class="card">
+                        <div style="display: flex; align-items: center; gap: 1rem; padding: 1rem; border-bottom: 1px solid var(--gray-200);">
+                            <div style="width: 48px; height: 48px; background: var(--gray-300); border-radius: 50%;"></div>
+                            <div style="flex: 1;">
+                                <h4 style="font-weight: 600;">Yuki</h4>
+                                <p style="color: var(--gray-600); font-size: 0.875rem;">こんにちは！今週末はいかがですか？</p>
+                            </div>
+                            <div style="text-align: right;">
+                                <span style="display: inline-block; padding: 0.125rem 0.5rem; background: var(--primary); color: white; border-radius: var(--radius-full); font-size: 0.75rem;">2</span>
+                                <p style="color: var(--gray-500); font-size: 0.75rem; margin-top: 0.25rem;">5分前</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Bookings Page -->
+                <div id="bookingsPage" class="page hidden">
+                    <div class="page-header">
+                        <h1 class="page-title">予約管理</h1>
+                        <p class="page-description">予約の確認と管理</p>
+                    </div>
+
+                    <div class="card">
+                        <h3 style="margin-bottom: 1rem;">予約中</h3>
+                        <div style="border: 1px solid var(--gray-200); border-radius: var(--radius); padding: 1rem;">
+                            <div style="display: flex; justify-content: space-between; align-items: start;">
+                                <div>
+                                    <h4 style="font-weight: 600; margin-bottom: 0.5rem;">Sakura さん</h4>
+                                    <p style="color: var(--gray-600); font-size: 0.875rem;">📅 2024年1月15日 19:00-22:00</p>
+                                    <p style="color: var(--gray-600); font-size: 0.875rem;">📍 六本木ヒルズ</p>
+                                </div>
+                                <span style="padding: 0.25rem 0.75rem; background: var(--success); color: white; border-radius: var(--radius-full); font-size: 0.75rem;">確定</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Profile Page -->
+                <div id="profilePage" class="page hidden">
+                    <div class="page-header">
+                        <h1 class="page-title">プロフィール</h1>
+                        <p class="page-description">あなたのプロフィール情報</p>
+                    </div>
+
+                    <div class="card">
+                        <div style="display: flex; align-items: center; gap: 2rem; margin-bottom: 2rem;">
+                            <div style="width: 100px; height: 100px; background: linear-gradient(135deg, var(--primary), var(--secondary)); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 2rem; font-weight: 700;">
+                                Y
+                            </div>
+                            <div>
+                                <h2 style="font-size: 1.5rem; margin-bottom: 0.5rem;">山田 太郎</h2>
+                                <p style="color: var(--gray-600);">プレミアム会員</p>
+                                <button style="margin-top: 1rem; padding: 0.5rem 1rem; background: var(--primary); color: white; border: none; border-radius: var(--radius); cursor: pointer;">
+                                    プロフィールを編集
+                                </button>
+                            </div>
+                        </div>
+
+                        <div style="display: grid; gap: 1rem;">
+                            <div>
+                                <label style="font-weight: 500; color: var(--gray-700);">メールアドレス</label>
+                                <p>yamada@example.com</p>
+                            </div>
+                            <div>
+                                <label style="font-weight: 500; color: var(--gray-700);">電話番号</label>
+                                <p>090-1234-5678</p>
+                            </div>
+                            <div>
+                                <label style="font-weight: 500; color: var(--gray-700);">登録日</label>
+                                <p>2024年1月1日</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Bottom Navigation (Mobile) -->
+        <nav class="bottom-nav">
+            <div class="bottom-nav-items">
+                <a href="#" class="bottom-nav-item active" data-page="home">
+                    <span class="bottom-nav-icon">🏠</span>
+                    <span class="bottom-nav-label">ホーム</span>
+                </a>
+                <a href="#" class="bottom-nav-item" data-page="search">
+                    <span class="bottom-nav-icon">🔍</span>
+                    <span class="bottom-nav-label">探す</span>
+                </a>
+                <a href="#" class="bottom-nav-item" data-page="messages">
+                    <span class="bottom-nav-icon">💬</span>
+                    <span class="bottom-nav-label">メッセージ</span>
+                    <span class="nav-badge" style="position: absolute; top: 0; right: 20%;">4</span>
+                </a>
+                <a href="#" class="bottom-nav-item" data-page="bookings">
+                    <span class="bottom-nav-icon">📅</span>
+                    <span class="bottom-nav-label">予約</span>
+                </a>
+                <a href="#" class="bottom-nav-item" data-page="profile">
+                    <span class="bottom-nav-icon">👤</span>
+                    <span class="bottom-nav-label">マイページ</span>
+                </a>
+            </div>
+        </nav>
+    </div>
+
+    <script>
+        // Toggle sidebar collapse
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            sidebar.classList.toggle('collapsed');
+        }
+
+        // Toggle mobile sidebar
+        function toggleMobileSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            sidebar.classList.toggle('open');
+        }
+
+        // Toggle favorite
+        function toggleFavorite(button) {
+            button.classList.toggle('active');
+            const svg = button.querySelector('svg');
+            if (button.classList.contains('active')) {
+                svg.setAttribute('fill', 'currentColor');
+            } else {
+                svg.setAttribute('fill', 'none');
+            }
+        }
+
+        // Page navigation
+        function showPage(pageName) {
+            // Hide all pages
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.add('hidden');
+            });
+
+            // Show selected page
+            const pageId = pageName + 'Page';
+            const page = document.getElementById(pageId);
+            if (page) {
+                page.classList.remove('hidden');
+            }
+
+            // Update nav links
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.remove('active');
+            });
+            document.querySelectorAll(`.nav-link[data-page="${pageName}"]`).forEach(link => {
+                link.classList.add('active');
+            });
+
+            // Update bottom nav
+            document.querySelectorAll('.bottom-nav-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            document.querySelectorAll(`.bottom-nav-item[data-page="${pageName}"]`).forEach(item => {
+                item.classList.add('active');
+            });
+
+            // Close mobile sidebar
+            const sidebar = document.getElementById('sidebar');
+            sidebar.classList.remove('open');
+        }
+
+        // Attach navigation listeners
+        document.querySelectorAll('.nav-link, .bottom-nav-item').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const page = link.getAttribute('data-page');
+                if (page === 'logout') {
+                    if (confirm('ログアウトしますか？')) {
+                        alert('ログアウトしました');
+                    }
+                } else if (page) {
+                    showPage(page);
+                }
+            });
+        });
+
+        // Search functionality
+        const searchInput = document.querySelector('.search-input');
+        if (searchInput) {
+            searchInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    showPage('search');
+                }
+            });
+        }
+
+        // Click outside to close mobile sidebar
+        document.addEventListener('click', (e) => {
+            const sidebar = document.getElementById('sidebar');
+            const toggle = document.querySelector('.mobile-menu-toggle');
+            
+            if (sidebar.classList.contains('open') && 
+                !sidebar.contains(e.target) && 
+                !toggle.contains(e.target)) {
+                sidebar.classList.remove('open');
+            }
+        });
+
+        // Initialize
+        showPage('home');
+    </script>
+</body>
+</html>

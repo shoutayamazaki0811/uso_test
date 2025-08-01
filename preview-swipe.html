@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>uso - スワイプ機能プレビュー</title>
+    
+    <style>
+        /* CSS Variables */
+        :root {
+            --bg-primary: #0a0a0a;
+            --bg-secondary: #1a1a1a;
+            --bg-tertiary: #2a2a2a;
+            --text-primary: #ffffff;
+            --text-secondary: #a0a0a0;
+            --accent-color: #d4af37;
+            --border-color: #333333;
+            --success-color: #44D362;
+            --error-color: #FF4458;
+            --info-color: #3498db;
+        }
+
+        /* Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            overflow-x: hidden;
+        }
+
+        /* Swipe Container */
+        .swipe-container {
+            position: relative;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            background: var(--bg-primary);
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        /* Demo Header */
+        .demo-header {
+            padding: 1rem;
+            background: var(--bg-secondary);
+            border-bottom: 1px solid var(--border-color);
+            text-align: center;
+        }
+
+        .demo-header h1 {
+            color: var(--accent-color);
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .demo-header p {
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+        }
+
+        /* Swipe Implementation */
+        .swipe-header {
+            padding: 1rem;
+            background: var(--bg-secondary);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .swipe-stats {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .points-badge,
+        .timer-badge {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: var(--bg-tertiary);
+            border-radius: 20px;
+            font-size: 0.875rem;
+        }
+
+        .points-badge {
+            background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+            color: var(--bg-primary);
+            font-weight: 600;
+        }
+
+        /* Cards Stack */
+        .cards-stack {
+            position: relative;
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 1rem;
+            overflow: hidden;
+        }
+
+        .swipe-card {
+            position: absolute;
+            width: min(90vw, 400px);
+            height: min(70vh, 600px);
+            background: var(--bg-secondary);
+            border-radius: 16px;
+            overflow: hidden;
+            cursor: grab;
+            user-select: none;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease, opacity 0.3s ease;
+        }
+
+        .card-image-container {
+            position: relative;
+            width: 100%;
+            height: 60%;
+            overflow: hidden;
+            background: var(--bg-tertiary);
+        }
+
+        .card-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .verified-badge {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: rgba(0, 255, 0, 0.9);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.875rem;
+            font-weight: 600;
+        }
+
+        .card-info {
+            padding: 1.5rem;
+            height: 40%;
+            overflow-y: auto;
+        }
+
+        .card-header h2 {
+            font-size: 1.5rem;
+            margin: 0;
+            color: var(--text-primary);
+        }
+
+        .age {
+            font-size: 1.2rem;
+            font-weight: normal;
+            color: var(--text-secondary);
+        }
+
+        /* Action Buttons */
+        .swipe-actions {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 1rem;
+            padding: 1.5rem;
+            background: var(--bg-secondary);
+        }
+
+        .action-button {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            background: var(--bg-tertiary);
+            color: var(--text-secondary);
+        }
+
+        .action-button:hover {
+            transform: scale(1.1);
+        }
+
+        .action-button.skip {
+            background: #FF4458;
+            color: white;
+        }
+
+        .action-button.superlike {
+            background: #3498db;
+            color: white;
+            width: 48px;
+            height: 48px;
+        }
+
+        .action-button.like {
+            background: #44D362;
+            color: white;
+        }
+
+        /* Card Action Hints */
+        .card-action-hint {
+            position: absolute;
+            padding: 0.5rem 1.5rem;
+            border-radius: 8px;
+            font-weight: bold;
+            font-size: 1.5rem;
+            opacity: 0;
+            transition: opacity 0.2s ease;
+            pointer-events: none;
+        }
+
+        .card-action-hint.nope {
+            top: 3rem;
+            left: 1rem;
+            color: #FF4458;
+            border: 3px solid #FF4458;
+            transform: rotate(-15deg);
+        }
+
+        .card-action-hint.like {
+            top: 3rem;
+            right: 1rem;
+            color: #44D362;
+            border: 3px solid #44D362;
+            transform: rotate(15deg);
+        }
+
+        /* Match Popup */
+        .match-popup {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.9);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .match-popup.show {
+            opacity: 1;
+        }
+
+        .match-content {
+            background: var(--bg-secondary);
+            padding: 2rem;
+            border-radius: 16px;
+            text-align: center;
+            max-width: 400px;
+            width: 90%;
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-decoration: none;
+            display: inline-block;
+            margin: 0.5rem;
+        }
+
+        .btn-primary {
+            background: var(--accent-color);
+            color: var(--bg-primary);
+        }
+
+        .btn-secondary {
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
+        }
+    </style>
+</head>
+<body>
+    <div class="swipe-container">
+        <div class="demo-header">
+            <h1>uso</h1>
+            <p>スワイプして理想のキャストを見つけよう</p>
+        </div>
+
+        <div class="swipe-header">
+            <div class="swipe-stats">
+                <div class="points-badge">
+                    <span>🌟</span>
+                    <span>ポイントGETまであと30人</span>
+                </div>
+                <div class="timer-badge">
+                    <span>23:59</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="cards-stack" id="cardsStack">
+            <!-- Cards will be rendered here -->
+        </div>
+
+        <div class="swipe-actions">
+            <button class="action-button skip" onclick="skipCard()">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M18 6L6 18M6 6l12 12"/>
+                </svg>
+            </button>
+            <button class="action-button superlike" onclick="superlikeCard()">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                </svg>
+            </button>
+            <button class="action-button like" onclick="likeCard()">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+                </svg>
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // Mock cast data
+        const casts = [
+            {
+                id: 1,
+                name: 'ゆか',
+                age: 25,
+                image: 'web/static/images/casts/yuka.png',
+                location: '六本木',
+                occupation: 'モデル',
+                intro: 'こんにちは！ゆかです。楽しい時間を過ごしましょう！',
+                verified: true
+            },
+            {
+                id: 2,
+                name: 'かな',
+                age: 23,
+                image: 'web/static/images/casts/kana.png',
+                location: '渋谷',
+                occupation: '大学生',
+                intro: 'かなです♪ 一緒に素敵な時間を過ごしませんか？',
+                verified: true
+            },
+            {
+                id: 3,
+                name: 'なつき',
+                age: 27,
+                image: 'web/static/images/casts/natsuki.png',
+                location: '銀座',
+                occupation: 'CA',
+                intro: 'VIPキャストのなつきです。最高のおもてなしをお約束します。',
+                verified: true
+            },
+            {
+                id: 4,
+                name: 'りな',
+                age: 24,
+                image: 'web/static/images/casts/rina.png',
+                location: '表参道',
+                occupation: 'アパレル',
+                intro: 'りなです！楽しくお話ししましょう♪',
+                verified: false
+            },
+            {
+                id: 5,
+                name: 'みお',
+                age: 26,
+                image: 'web/static/images/casts/mio.png',
+                location: '恵比寿',
+                occupation: '美容師',
+                intro: 'みおです。素敵な思い出作りのお手伝いをします♡',
+                verified: true
+            }
+        ];
+
+        let currentIndex = 0;
+
+        function renderCards() {
+            const stack = document.getElementById('cardsStack');
+            stack.innerHTML = '';
+
+            // Show up to 3 cards
+            for (let i = 0; i < Math.min(3, casts.length - currentIndex); i++) {
+                const cast = casts[currentIndex + i];
+                const card = document.createElement('div');
+                card.className = 'swipe-card';
+                card.style.zIndex = 3 - i;
+                card.style.transform = `scale(${1 - i * 0.03}) translateY(${i * 10}px)`;
+                
+                card.innerHTML = `
+                    <div class="card-image-container">
+                        <img src="${cast.image}" alt="${cast.name}" class="card-image" onerror="this.style.background='var(--bg-tertiary)'">
+                        ${cast.verified ? '<div class="verified-badge">✓ 本人確認済み</div>' : ''}
+                    </div>
+                    <div class="card-info">
+                        <div class="card-header">
+                            <h2>${cast.name} <span class="age">${cast.age}歳</span></h2>
+                        </div>
+                        <p>📍 ${cast.location} • 💼 ${cast.occupation}</p>
+                        <p style="margin-top: 1rem; color: var(--text-secondary);">${cast.intro}</p>
+                    </div>
+                    <div class="card-action-hint nope">NOPE</div>
+                    <div class="card-action-hint like">LIKE</div>
+                `;
+                
+                stack.appendChild(card);
+            }
+
+            // Add swipe functionality to top card
+            if (stack.firstChild) {
+                addSwipeListeners(stack.firstChild);
+            }
+        }
+
+        function addSwipeListeners(card) {
+            let startX = null;
+            let currentX = null;
+            let cardBeingDragged = null;
+
+            const handleStart = (e) => {
+                cardBeingDragged = card;
+                startX = e.type.includes('mouse') ? e.clientX : e.touches[0].clientX;
+                currentX = startX;
+                card.style.transition = 'none';
+            };
+
+            const handleMove = (e) => {
+                if (!cardBeingDragged) return;
+
+                currentX = e.type.includes('mouse') ? e.clientX : e.touches[0].clientX;
+                const deltaX = currentX - startX;
+                const rotation = deltaX * 0.1;
+
+                card.style.transform = `translateX(${deltaX}px) rotate(${rotation}deg)`;
+
+                // Update hints
+                const threshold = 50;
+                if (deltaX > threshold) {
+                    card.querySelector('.card-action-hint.like').style.opacity = Math.min(1, deltaX / 150);
+                    card.querySelector('.card-action-hint.nope').style.opacity = 0;
+                } else if (deltaX < -threshold) {
+                    card.querySelector('.card-action-hint.nope').style.opacity = Math.min(1, Math.abs(deltaX) / 150);
+                    card.querySelector('.card-action-hint.like').style.opacity = 0;
+                } else {
+                    card.querySelector('.card-action-hint.like').style.opacity = 0;
+                    card.querySelector('.card-action-hint.nope').style.opacity = 0;
+                }
+            };
+
+            const handleEnd = () => {
+                if (!cardBeingDragged) return;
+
+                const deltaX = currentX - startX;
+                const threshold = 100;
+
+                card.style.transition = '';
+
+                if (Math.abs(deltaX) > threshold) {
+                    const direction = deltaX > 0 ? 'right' : 'left';
+                    animateCardOut(card, direction);
+                } else {
+                    card.style.transform = '';
+                    card.querySelector('.card-action-hint.like').style.opacity = 0;
+                    card.querySelector('.card-action-hint.nope').style.opacity = 0;
+                }
+
+                cardBeingDragged = null;
+            };
+
+            // Touch events
+            card.addEventListener('touchstart', handleStart);
+            card.addEventListener('touchmove', handleMove);
+            card.addEventListener('touchend', handleEnd);
+
+            // Mouse events
+            card.addEventListener('mousedown', handleStart);
+            document.addEventListener('mousemove', handleMove);
+            document.addEventListener('mouseup', handleEnd);
+        }
+
+        function animateCardOut(card, direction) {
+            const translateX = direction === 'right' ? '150%' : '-150%';
+            const rotation = direction === 'right' ? '30deg' : '-30deg';
+            
+            card.style.transform = `translateX(${translateX}) rotate(${rotation})`;
+            card.style.opacity = '0';
+
+            setTimeout(() => {
+                currentIndex++;
+                if (currentIndex >= casts.length) {
+                    showNoMoreCards();
+                } else {
+                    renderCards();
+                    if (direction === 'right') {
+                        checkForMatch();
+                    }
+                }
+            }, 300);
+        }
+
+        function skipCard() {
+            const topCard = document.querySelector('.swipe-card');
+            if (topCard) {
+                animateCardOut(topCard, 'left');
+            }
+        }
+
+        function likeCard() {
+            const topCard = document.querySelector('.swipe-card');
+            if (topCard) {
+                animateCardOut(topCard, 'right');
+            }
+        }
+
+        function superlikeCard() {
+            const topCard = document.querySelector('.swipe-card');
+            if (topCard) {
+                topCard.style.transform = 'translateY(-150%) rotate(10deg) scale(0.8)';
+                topCard.style.opacity = '0';
+                setTimeout(() => {
+                    currentIndex++;
+                    if (currentIndex >= casts.length) {
+                        showNoMoreCards();
+                    } else {
+                        renderCards();
+                        checkForMatch(true);
+                    }
+                }, 300);
+            }
+        }
+
+        function checkForMatch(isSuperLike = false) {
+            const matchChance = isSuperLike ? 0.7 : 0.3;
+            if (Math.random() < matchChance) {
+                setTimeout(showMatch, 500);
+            }
+        }
+
+        function showMatch() {
+            const currentCast = casts[currentIndex - 1];
+            const popup = document.createElement('div');
+            popup.className = 'match-popup';
+            popup.innerHTML = `
+                <div class="match-content">
+                    <h1 style="color: var(--accent-color); margin-bottom: 1rem;">マッチしました！</h1>
+                    <div style="width: 120px; height: 120px; margin: 0 auto 1rem; overflow: hidden; border-radius: 50%; border: 4px solid var(--accent-color);">
+                        <img src="${currentCast.image}" alt="${currentCast.name}" style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                    <p>${currentCast.name}さんとマッチしました！</p>
+                    <button class="btn btn-primary" onclick="this.closest('.match-popup').remove()">メッセージを送る</button>
+                    <button class="btn btn-secondary" onclick="this.closest('.match-popup').remove()">後で</button>
+                </div>
+            `;
+            document.body.appendChild(popup);
+            setTimeout(() => popup.classList.add('show'), 10);
+        }
+
+        function showNoMoreCards() {
+            const stack = document.getElementById('cardsStack');
+            stack.innerHTML = `
+                <div style="text-align: center; padding: 2rem;">
+                    <h2>本日の新しいキャストは以上です</h2>
+                    <p style="color: var(--text-secondary); margin: 1rem 0;">明日また新しいキャストが追加されます</p>
+                    <button class="btn btn-primary" onclick="location.reload()">最初から見る</button>
+                </div>
+            `;
+        }
+
+        // Initialize
+        renderCards();
+    </script>
+</body>
+</html>

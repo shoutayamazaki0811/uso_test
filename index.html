@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>uso - Premium Entertainment Platform</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="web/static/css/uso-app.css">
+</head>
+<body>
+    <div id="app"></div>
+    
+    <script>
+        // Update image paths for local viewing
+        window.IMAGE_BASE_PATH = 'web/static/images/casts/';
+    </script>
+    <script src="web/static/js/uso-app.js"></script>
+    
+    <script>
+        // Override mock data with correct image paths
+        const localMockCasts = [
+            {
+                id: 1,
+                name: 'ゆか',
+                age: 25,
+                image: 'web/static/images/casts/yuka.png',
+                rating: 4.9,
+                reviewCount: 47,
+                hourlyRate: 15000,
+                rank: 'premium',
+                bio: '初めまして、ゆかです。楽しい時間を一緒に過ごしましょう！',
+                serviceAreas: ['六本木', '渋谷', '恵比寿'],
+                languages: ['日本語', 'English'],
+                tags: ['モデル経験あり', 'ワイン好き', '会話上手']
+            },
+            {
+                id: 2,
+                name: 'かな',
+                age: 27,
+                image: 'web/static/images/casts/kana.png',
+                rating: 5.0,
+                reviewCount: 32,
+                hourlyRate: 20000,
+                rank: 'vip',
+                bio: '素敵な思い出作りのお手伝いをさせていただきます。',
+                serviceAreas: ['銀座', '丸の内', '六本木'],
+                languages: ['日本語', 'English', '中文'],
+                tags: ['元CA', '高級レストラン', 'ビジネス会食']
+            },
+            {
+                id: 3,
+                name: 'なつき',
+                age: 24,
+                image: 'web/static/images/casts/natsuki.png',
+                rating: 4.8,
+                reviewCount: 29,
+                hourlyRate: 12000,
+                rank: 'standard',
+                bio: 'カジュアルな雰囲気で楽しくお話しできます♪',
+                serviceAreas: ['新宿', '池袋', '渋谷'],
+                languages: ['日本語'],
+                tags: ['学生', 'カフェ巡り', 'アニメ好き']
+            },
+            {
+                id: 4,
+                name: 'りな',
+                age: 26,
+                image: 'web/static/images/casts/rina.png',
+                rating: 4.7,
+                reviewCount: 18,
+                hourlyRate: 18000,
+                rank: 'premium',
+                bio: '個性的なスタイルで特別な時間をお届けします。',
+                serviceAreas: ['原宿', '表参道', '青山'],
+                languages: ['日本語', 'English'],
+                tags: ['アーティスト', 'ファッション', 'パーティー']
+            },
+            {
+                id: 5,
+                name: 'みお',
+                age: 28,
+                image: 'web/static/images/casts/mio.png',
+                rating: 4.9,
+                reviewCount: 55,
+                hourlyRate: 25000,
+                rank: 'vip',
+                bio: 'ビジネスシーンでも安心してご利用いただけます。',
+                serviceAreas: ['銀座', '六本木', '赤坂'],
+                languages: ['日本語', 'English', 'Français'],
+                tags: ['秘書経験', 'ビジネス英語', '高級クラブ']
+            }
+        ];
+        
+        // Override app.casts after initialization
+        setTimeout(() => {
+            app.casts = localMockCasts;
+            renderApp();
+        }, 100);
+    </script>
+</body>
+</html>
