@@ -1,9 +1,3 @@
 {
-  "version": 2,
-  "outputDirectory": "web",
-  "public": true,
-  "framework": null,
-  "installCommand": "",
-  "buildCommand": "",
-  "devCommand": ""
+  "version": 2
 }
