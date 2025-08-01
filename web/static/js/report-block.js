@@ -222,7 +222,7 @@ class ReportBlock {
             
             container.innerHTML = blockedUsers.map(user => `
                 <div class="blocked-user-item">
-                    <img src="${user.image || '/static/images/default-avatar.png'}" alt="${user.name}" class="user-avatar">
+                    <img src="${user.image || 'static/images/default-avatar.png'}" alt="${user.name}" class="user-avatar">
                     <div class="user-info">
                         <h4>${user.name}</h4>
                         <p class="blocked-date">ブロック日: ${new Date(user.blocked_at).toLocaleDateString('ja-JP')}</p>

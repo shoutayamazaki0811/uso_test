@@ -49,7 +49,7 @@ const mockCasts = [
         id: 1,
         name: 'ゆか',
         age: 25,
-        image: '/static/images/casts/yuka.png',
+        image: 'static/images/casts/yuka.png',
         rating: 4.9,
         reviewCount: 47,
         hourlyRate: 15000,
@@ -70,7 +70,7 @@ const mockCasts = [
         id: 2,
         name: 'かな',
         age: 27,
-        image: '/static/images/casts/kana.png',
+        image: 'static/images/casts/kana.png',
         rating: 5.0,
         reviewCount: 32,
         hourlyRate: 20000,
@@ -91,7 +91,7 @@ const mockCasts = [
         id: 3,
         name: 'なつき',
         age: 24,
-        image: '/static/images/casts/natsuki.png',
+        image: 'static/images/casts/natsuki.png',
         rating: 4.8,
         reviewCount: 29,
         hourlyRate: 12000,
@@ -112,7 +112,7 @@ const mockCasts = [
         id: 4,
         name: 'りな',
         age: 26,
-        image: '/static/images/casts/rina.png',
+        image: 'static/images/casts/rina.png',
         rating: 4.7,
         reviewCount: 18,
         hourlyRate: 18000,
@@ -133,7 +133,7 @@ const mockCasts = [
         id: 5,
         name: 'みお',
         age: 28,
-        image: '/static/images/casts/mio.png',
+        image: 'static/images/casts/mio.png',
         rating: 4.9,
         reviewCount: 55,
         hourlyRate: 25000,
@@ -618,8 +618,8 @@ function renderLikesPage() {
 // Messages Page
 function renderMessagesPage() {
     const messages = [
-        { id: 1, name: 'ゆか', lastMessage: 'こんにちは！今週末はいかがですか？', time: '5分前', unread: 2, image: '/static/images/casts/yuka.png' },
-        { id: 2, name: 'かな', lastMessage: 'ありがとうございました😊', time: '1時間前', unread: 0, image: '/static/images/casts/kana.png' }
+        { id: 1, name: 'ゆか', lastMessage: 'こんにちは！今週末はいかがですか？', time: '5分前', unread: 2, image: 'static/images/casts/yuka.png' },
+        { id: 2, name: 'かな', lastMessage: 'ありがとうございました😊', time: '1時間前', unread: 0, image: 'static/images/casts/kana.png' }
     ];
     
     return `
@@ -662,7 +662,7 @@ function renderBookingsPage() {
         <div id="upcomingBookings" class="bookings-content">
             <div class="booking-card">
                 <div class="booking-header">
-                    <img src="/static/images/casts/kana.png" alt="かな" class="booking-avatar">
+                    <img src="static/images/casts/kana.png" alt="かな" class="booking-avatar">
                     <div class="booking-info">
                         <h3>かな さん</h3>
                         <div class="booking-details">
@@ -683,7 +683,7 @@ function renderBookingsPage() {
         <div id="pastBookings" class="bookings-content hidden">
             <div class="booking-card">
                 <div class="booking-header">
-                    <img src="/static/images/casts/mio.png" alt="みお" class="booking-avatar">
+                    <img src="static/images/casts/mio.png" alt="みお" class="booking-avatar">
                     <div class="booking-info">
                         <h3>みお さん</h3>
                         <div class="booking-details">

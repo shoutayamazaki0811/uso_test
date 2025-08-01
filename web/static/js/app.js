@@ -417,7 +417,7 @@ function renderCastGrid(casts) {
     grid.innerHTML = casts.map(cast => `
         <div class="cast-card" onclick="viewCastDetail(${cast.id})">
             <div class="cast-image">
-                <img src="${cast.gallery_image || cast.profile_image || '/static/images/default-avatar.jpg'}" alt="${cast.name}">
+                <img src="${cast.gallery_image || cast.profile_image || 'static/images/default-avatar.jpg'}" alt="${cast.name}">
                 <div class="cast-rank ${cast.rank}">${cast.rank.toUpperCase()}</div>
             </div>
             <div class="cast-info">
