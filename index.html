@@ -23,5 +23,13 @@
     </script>
     <script src="static/js/swipe-cards.js"></script>
     <script src="static/js/uso-app-updated.js"></script>
+    <script>
+        // Initialize swipe functionality after all scripts are loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            if (typeof SwipeCards !== 'undefined') {
+                window.swipeCard = null;
+            }
+        });
+    </script>
 </body>
 </html>
