@@ -1,7 +1,11 @@
 // Swipe Cards Module for Uso App
 
+// Global variable for swipe card instance
+let swipeCard = null;
+
 class SwipeCards {
     constructor(container, cards) {
+        console.log('Initializing SwipeCards with:', { container, cardsCount: cards.length });
         this.container = container;
         this.cards = cards;
         this.currentIndex = 0;
@@ -9,6 +13,10 @@ class SwipeCards {
         this.dailyLikes = 30;
         this.remainingTime = this.getTimeUntilMidnight();
         this.init();
+        
+        // Set global reference
+        window.swipeCard = this;
+        console.log('SwipeCards initialized successfully');
     }
 
     init() {

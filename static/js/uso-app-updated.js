@@ -426,6 +426,7 @@ function renderHomePage() {
 
 // Swipe Page
 function renderSwipePage() {
+    console.log('Rendering swipe page...');
     return `
         <div class="swipe-page" id="swipePage">
             <!-- Swipe cards will be rendered here -->
@@ -921,7 +922,9 @@ function navigateTo(page) {
         setTimeout(() => {
             const swipeContainer = document.getElementById('swipePage');
             if (swipeContainer && typeof SwipeCards !== 'undefined') {
-                swipeCard = new SwipeCards(swipeContainer, app.casts);
+                window.swipeCard = new SwipeCards(swipeContainer, app.casts);
+            } else {
+                console.error('SwipeCards class not found or container not available');
             }
         }, 100);
     }
