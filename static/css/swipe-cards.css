@@ -2,10 +2,11 @@
 
 .swipe-page {
     position: relative;
-    height: calc(100vh - 200px);
+    height: calc(100vh - 140px);
     display: flex;
     flex-direction: column;
-    background: var(--bg-primary);
+    background: var(--bg-secondary);
+    overflow: hidden;
 }
 
 .swipe-container {

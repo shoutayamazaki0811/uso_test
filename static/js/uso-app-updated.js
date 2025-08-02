@@ -1173,7 +1173,109 @@ function showTerms() {
 }
 
 function writeReview(castId) {
-    showNotification('レビュー画面を開きます...', 'info');
+    const cast = app.casts.find(c => c.id === castId);
+    if (!cast) return;
+    
+    const reviewModal = document.createElement('div');
+    reviewModal.className = 'review-modal';
+    reviewModal.innerHTML = `
+        <div class="review-container">
+            <div class="review-header">
+                <h2>レビューを書く</h2>
+                <button class="close-btn" onclick="closeReview()">×</button>
+            </div>
+            <div class="review-cast-info">
+                <img src="${cast.image}" alt="${cast.name}" class="review-cast-avatar">
+                <div>
+                    <h3>${cast.name}さん</h3>
+                    <p>2024年1月5日のご利用</p>
+                </div>
+            </div>
+            <div class="review-form">
+                <div class="rating-section">
+                    <h4>評価</h4>
+                    <div class="star-rating" id="starRating">
+                        <span class="star" data-rating="1">⭐</span>
+                        <span class="star" data-rating="2">⭐</span>
+                        <span class="star" data-rating="3">⭐</span>
+                        <span class="star" data-rating="4">⭐</span>
+                        <span class="star" data-rating="5">⭐</span>
+                    </div>
+                </div>
+                <div class="review-categories">
+                    <div class="category-rating">
+                        <span>会話</span>
+                        <div class="mini-stars">⭐⭐⭐⭐⭐</div>
+                    </div>
+                    <div class="category-rating">
+                        <span>マナー</span>
+                        <div class="mini-stars">⭐⭐⭐⭐⭐</div>
+                    </div>
+                    <div class="category-rating">
+                        <span>時間厳守</span>
+                        <div class="mini-stars">⭐⭐⭐⭐⭐</div>
+                    </div>
+                </div>
+                <div class="review-text-section">
+                    <h4>コメント</h4>
+                    <textarea 
+                        class="review-textarea" 
+                        placeholder="${cast.name}さんとの時間はいかがでしたか？"
+                        rows="4"
+                    ></textarea>
+                </div>
+                <div class="review-actions">
+                    <button class="btn btn-secondary" onclick="closeReview()">キャンセル</button>
+                    <button class="btn btn-primary" onclick="submitReview(${castId})">投稿する</button>
+                </div>
+            </div>
+        </div>
+    `;
+    document.body.appendChild(reviewModal);
+    
+    // Star rating interaction
+    const stars = reviewModal.querySelectorAll('.star');
+    let selectedRating = 0;
+    
+    stars.forEach(star => {
+        star.addEventListener('click', () => {
+            selectedRating = parseInt(star.dataset.rating);
+            updateStars(stars, selectedRating);
+        });
+        
+        star.addEventListener('mouseenter', () => {
+            const hoverRating = parseInt(star.dataset.rating);
+            updateStars(stars, hoverRating);
+        });
+    });
+    
+    reviewModal.querySelector('.star-rating').addEventListener('mouseleave', () => {
+        updateStars(stars, selectedRating);
+    });
+}
+
+function updateStars(stars, rating) {
+    stars.forEach((star, index) => {
+        if (index < rating) {
+            star.classList.add('active');
+            star.style.color = '#ffc107';
+        } else {
+            star.classList.remove('active');
+            star.style.color = '#dee2e6';
+        }
+    });
+}
+
+function closeReview() {
+    const modal = document.querySelector('.review-modal');
+    if (modal) {
+        modal.remove();
+    }
+}
+
+function submitReview(castId) {
+    showNotification('レビューを投稿しました！', 'success');
+    closeReview();
 }
 
 function showBookingDetails(bookingId) {
@@ -1185,7 +1287,58 @@ function changePassword() {
 }
 
 function showNotifications() {
-    showNotification('通知センターを開きます...', 'info');
+    const notificationModal = document.createElement('div');
+    notificationModal.className = 'notification-modal';
+    notificationModal.innerHTML = `
+        <div class="notification-container">
+            <div class="notification-header">
+                <h2>通知</h2>
+                <button class="close-btn" onclick="closeNotifications()">×</button>
+            </div>
+            <div class="notification-list">
+                <div class="notification-item unread">
+                    <div class="notification-icon">❤️</div>
+                    <div class="notification-content">
+                        <h4>新しいいいね！</h4>
+                        <p>ゆかさんがあなたにいいね！しました</p>
+                        <span class="notification-time">5分前</span>
+                    </div>
+                </div>
+                <div class="notification-item unread">
+                    <div class="notification-icon">💬</div>
+                    <div class="notification-content">
+                        <h4>新しいメッセージ</h4>
+                        <p>かなさんからメッセージが届きました</p>
+                        <span class="notification-time">1時間前</span>
+                    </div>
+                </div>
+                <div class="notification-item">
+                    <div class="notification-icon">⭐</div>
+                    <div class="notification-content">
+                        <h4>レビューのお願い</h4>
+                        <p>みおさんとの予約が完了しました。レビューを書きましょう</p>
+                        <span class="notification-time">昨日</span>
+                    </div>
+                </div>
+                <div class="notification-item">
+                    <div class="notification-icon">🎉</div>
+                    <div class="notification-content">
+                        <h4>プロモーション</h4>
+                        <p>今日限定！プレミアムプランが50%OFF</p>
+                        <span class="notification-time">2日前</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+    document.body.appendChild(notificationModal);
+}
+
+function closeNotifications() {
+    const modal = document.querySelector('.notification-modal');
+    if (modal) {
+        modal.remove();
+    }
 }
 
 function toggleUserMenu() {
