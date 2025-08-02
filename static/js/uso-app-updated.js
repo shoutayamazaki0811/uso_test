@@ -154,6 +154,8 @@ const mockCasts = [
 
 // Initialize Application
 function initApp() {
+    console.log('Initializing uso app...');
+    
     // Check authentication
     if (app.token) {
         // In real app, verify token validity
@@ -168,10 +170,12 @@ function initApp() {
 
     // Load mock data
     app.casts = mockCasts;
+    console.log('Loaded casts:', app.casts.length);
 
     // Initialize page
     renderApp();
     attachEventListeners();
+    console.log('App initialization complete');
 }
 
 // Render Application

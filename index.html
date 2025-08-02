@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>uso - 高級エンターテイメントマッチングプラットフォーム</title>
     <link rel="stylesheet" href="static/css/style.css">
+    <link rel="stylesheet" href="static/css/uso-app.css">
     <link rel="stylesheet" href="static/css/swipe-cards.css">
     
     <style>
@@ -28,6 +29,13 @@
         document.addEventListener('DOMContentLoaded', function() {
             if (typeof SwipeCards !== 'undefined') {
                 window.swipeCard = null;
+            }
+            
+            // Initialize the app
+            if (typeof initApp !== 'undefined') {
+                initApp();
+            } else {
+                console.error('initApp function not found');
             }
         });
     </script>
