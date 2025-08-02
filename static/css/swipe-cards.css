@@ -1,5 +1,13 @@
 /* Swipe Cards Styles */
 
+.swipe-page {
+    position: relative;
+    height: calc(100vh - 200px);
+    display: flex;
+    flex-direction: column;
+    background: var(--bg-primary);
+}
+
 .swipe-container {
     position: relative;
     height: 100%;
@@ -59,8 +67,8 @@
 
 .swipe-card {
     position: absolute;
-    width: min(90vw, 400px);
-    height: min(70vh, 600px);
+    width: min(85vw, 380px);
+    height: min(65vh, 550px);
     background: var(--bg-secondary);
     border-radius: 16px;
     overflow: hidden;
@@ -68,6 +76,9 @@
     user-select: none;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
     transition: transform 0.3s ease, opacity 0.3s ease;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
 
 .swipe-card:active {
@@ -229,13 +240,13 @@
     width: 56px;
     height: 56px;
     border-radius: 50%;
-    border: none;
+    border: 2px solid var(--border-color);
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
     transition: all 0.2s ease;
-    background: var(--bg-tertiary);
+    background: var(--bg-primary);
     color: var(--text-secondary);
 }
 

@@ -1286,22 +1286,42 @@ input:checked + .slider:before {
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.8);
-    z-index: 1000;
+    background: rgba(0, 0, 0, 0.9);
+    z-index: 9999;
     display: flex;
     align-items: center;
     justify-content: center;
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
 }
 
 .chat-container {
     width: 90%;
     max-width: 500px;
     height: 80%;
-    background: white;
-    border-radius: 12px;
+    max-height: 700px;
+    background: var(--bg-secondary);
+    border-radius: 16px;
     display: flex;
     flex-direction: column;
     overflow: hidden;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+    animation: slideUp 0.3s ease;
+}
+
+@keyframes slideUp {
+    from { 
+        transform: translateY(100px);
+        opacity: 0;
+    }
+    to { 
+        transform: translateY(0);
+        opacity: 1;
+    }
 }
 
 .chat-header {
@@ -1421,4 +1441,94 @@ input:checked + .slider:before {
 
 .chat-input button:hover {
     background: var(--primary-dark);
+}
+
+/* Messages Page Styles */
+.messages-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: 0 1rem;
+}
+
+.message-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+    background: var(--card-bg);
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    border: 1px solid var(--border-color);
+}
+
+.message-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 20px rgba(212, 175, 55, 0.2);
+    border-color: var(--primary);
+}
+
+.message-avatar {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid var(--primary);
+}
+
+.message-content {
+    flex: 1;
+    min-width: 0;
+}
+
+.message-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.25rem;
+    gap: 1rem;
+}
+
+.message-header h4 {
+    margin: 0;
+    font-size: 1.1rem;
+    color: var(--text-primary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.message-time {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    white-space: nowrap;
+}
+
+.message-preview {
+    margin: 0;
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.unread-badge {
+    position: absolute;
+    top: 50%;
+    right: 1rem;
+    transform: translateY(-50%);
+    background: var(--primary);
+    color: var(--bg-primary);
+    font-size: 0.8rem;
+    min-width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 0.4rem;
+    border-radius: 10px;
+    font-weight: 600;
 }

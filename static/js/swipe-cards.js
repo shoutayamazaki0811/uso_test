@@ -431,6 +431,47 @@ class SwipeCards {
         const minutes = Math.floor((seconds % 3600) / 60);
         return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
     }
+
+    // Public methods for button clicks
+    skip() {
+        console.log('Skip clicked');
+        this.handleChoice('skip');
+    }
+
+    like() {
+        console.log('Like clicked');
+        if (this.dailyLikes <= 0) {
+            this.showLimitPopup();
+            return;
+        }
+        this.handleChoice('like');
+    }
+
+    superlike() {
+        console.log('Superlike clicked');
+        if (this.dailyLikes <= 0) {
+            this.showLimitPopup();
+            return;
+        }
+        this.handleChoice('superlike');
+    }
+
+    openBoost() {
+        console.log('Boost clicked');
+        alert('ブースト機能は近日公開予定です！');
+    }
+
+    rewind() {
+        console.log('Rewind clicked');
+        alert('リワインド機能はプレミアム会員限定です');
+    }
+
+    closeChanceTime() {
+        const popup = document.getElementById('chanceTimePopup');
+        if (popup) {
+            popup.classList.add('hidden');
+        }
+    }
 }
 
 // Global instance
