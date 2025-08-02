@@ -2,7 +2,7 @@
 
 .swipe-page {
     position: relative;
-    height: calc(100vh - 140px);
+    height: calc(100vh - 120px);
     display: flex;
     flex-direction: column;
     background: var(--bg-secondary);
@@ -62,20 +62,22 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 1rem;
-    overflow: hidden;
+    padding: 1rem 1rem 6rem 1rem;
+    overflow: visible;
+    min-height: 400px;
 }
 
 .swipe-card {
     position: absolute;
-    width: min(85vw, 380px);
-    height: min(65vh, 550px);
+    width: min(85vw, 350px);
+    height: min(60vh, 500px);
+    max-height: 500px;
     background: var(--bg-secondary);
     border-radius: 16px;
     overflow: hidden;
     cursor: grab;
     user-select: none;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
     transition: transform 0.3s ease, opacity 0.3s ease;
     top: 50%;
     left: 50%;
@@ -121,9 +123,13 @@
 }
 
 .card-info {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
     padding: 1.5rem;
-    height: 40%;
-    overflow-y: auto;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.9) 0%, rgba(0, 0, 0, 0.7) 50%, transparent 100%);
+    color: white;
 }
 
 .card-header {
@@ -136,17 +142,18 @@
 .card-header h2 {
     font-size: 1.5rem;
     margin: 0;
-    color: var(--text-primary);
+    color: white;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
 .age {
     font-size: 1.2rem;
     font-weight: normal;
-    color: var(--text-secondary);
+    color: rgba(255, 255, 255, 0.9);
 }
 
 .location {
-    color: var(--text-secondary);
+    color: rgba(255, 255, 255, 0.8);
     font-size: 0.875rem;
 }
 
@@ -159,10 +166,11 @@
 
 .interest-tag {
     padding: 0.25rem 0.75rem;
-    background: var(--bg-tertiary);
+    background: rgba(255, 255, 255, 0.2);
     border-radius: 20px;
     font-size: 0.75rem;
-    color: var(--text-secondary);
+    color: white;
+    backdrop-filter: blur(10px);
 }
 
 .card-details {
@@ -229,12 +237,17 @@
 
 /* Swipe Actions */
 .swipe-actions {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
     display: flex;
     justify-content: center;
     align-items: center;
     gap: 1rem;
     padding: 1.5rem;
-    background: var(--bg-secondary);
+    background: linear-gradient(to top, var(--bg-secondary) 0%, transparent 100%);
+    z-index: 10;
 }
 
 .action-button {
@@ -458,3 +471,54 @@
         height: 44px;
     }
 }
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+    .swipe-page {
+        height: calc(100vh - 60px);
+    }
+    
+    .swipe-header {
+        padding: 0.75rem;
+    }
+    
+    .cards-stack {
+        padding: 0.5rem 0.5rem 5rem 0.5rem;
+    }
+    
+    .swipe-card {
+        width: 90vw;
+        height: 65vh;
+        max-height: 600px;
+    }
+    
+    .swipe-actions {
+        padding: 1rem;
+        gap: 0.75rem;
+    }
+    
+    .action-button {
+        width: 48px;
+        height: 48px;
+    }
+    
+    .action-button svg {
+        width: 20px;
+        height: 20px;
+    }
+    
+    .card-info {
+        padding: 1rem;
+    }
+    
+    .card-header h2 {
+        font-size: 1.25rem;
+    }
+    
+    .points-badge,
+    .timer-badge {
+        font-size: 0.75rem;
+        padding: 0.4rem 0.8rem;
+    }
+}
+EOF < /dev/null
