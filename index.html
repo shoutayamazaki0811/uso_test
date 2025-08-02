@@ -27,6 +27,10 @@
     <script>
         // Initialize swipe functionality after all scripts are loaded
         document.addEventListener('DOMContentLoaded', function() {
+            console.log('DOM Content Loaded');
+            console.log('SwipeCards available:', typeof SwipeCards !== 'undefined');
+            console.log('initApp available:', typeof initApp !== 'undefined');
+            
             if (typeof SwipeCards !== 'undefined') {
                 window.swipeCard = null;
             }

@@ -925,8 +925,13 @@ function navigateTo(page) {
     if (page === 'swipe') {
         setTimeout(() => {
             const swipeContainer = document.getElementById('swipePage');
+            console.log('Swipe container:', swipeContainer);
+            console.log('SwipeCards class available:', typeof SwipeCards !== 'undefined');
+            console.log('Available casts:', app.casts.length);
+            
             if (swipeContainer && typeof SwipeCards !== 'undefined') {
                 window.swipeCard = new SwipeCards(swipeContainer, app.casts);
+                console.log('SwipeCards initialized successfully');
             } else {
                 console.error('SwipeCards class not found or container not available');
             }
@@ -1047,8 +1052,95 @@ function bookCast(castId) {
 }
 
 function openChat(userId) {
-    showNotification('チャットを開きます...', 'info');
-    // In real app, open chat window
+    console.log('Opening chat for user:', userId);
+    
+    // Find the cast by ID
+    const cast = app.casts.find(c => c.id === userId);
+    if (!cast) {
+        showNotification('キャストが見つかりません', 'error');
+        return;
+    }
+    
+    // Create chat modal
+    const chatModal = document.createElement('div');
+    chatModal.className = 'chat-modal';
+    chatModal.innerHTML = `
+        <div class="chat-container">
+            <div class="chat-header">
+                <img src="${cast.image}" alt="${cast.name}" class="chat-avatar">
+                <div class="chat-user-info">
+                    <h3>${cast.name}</h3>
+                    <span class="chat-status">オンライン</span>
+                </div>
+                <button class="chat-close" onclick="closeChat()">×</button>
+            </div>
+            <div class="chat-messages" id="chatMessages">
+                <div class="message received">
+                    <div class="message-content">
+                        <p>こんにちは！${cast.name}です 😊</p>
+                        <span class="message-time">${new Date().toLocaleTimeString()}</span>
+                    </div>
+                </div>
+            </div>
+            <div class="chat-input">
+                <input type="text" id="chatInput" placeholder="メッセージを入力..." onkeypress="sendMessage(event)">
+                <button onclick="sendMessage()">送信</button>
+            </div>
+        </div>
+    `;
+    
+    document.body.appendChild(chatModal);
+    
+    // Focus on input
+    setTimeout(() => {
+        document.getElementById('chatInput').focus();
+    }, 100);
+}
+
+function closeChat() {
+    const chatModal = document.querySelector('.chat-modal');
+    if (chatModal) {
+        chatModal.remove();
+    }
+}
+
+function sendMessage(event) {
+    if (event && event.key !== 'Enter') return;
+    
+    const input = document.getElementById('chatInput');
+    const message = input.value.trim();
+    
+    if (!message) return;
+    
+    const messagesContainer = document.getElementById('chatMessages');
+    const messageElement = document.createElement('div');
+    messageElement.className = 'message sent';
+    messageElement.innerHTML = `
+        <div class="message-content">
+            <p>${message}</p>
+            <span class="message-time">${new Date().toLocaleTimeString()}</span>
+        </div>
+    `;
+    
+    messagesContainer.appendChild(messageElement);
+    input.value = '';
+    
+    // Scroll to bottom
+    messagesContainer.scrollTop = messagesContainer.scrollHeight;
+    
+    // Simulate reply after 1 second
+    setTimeout(() => {
+        const replyElement = document.createElement('div');
+        replyElement.className = 'message received';
+        replyElement.innerHTML = `
+            <div class="message-content">
+                <p>ありがとうございます！😊</p>
+                <span class="message-time">${new Date().toLocaleTimeString()}</span>
+            </div>
+        `;
+        messagesContainer.appendChild(replyElement);
+        messagesContainer.scrollTop = messagesContainer.scrollHeight;
+    }, 1000);
 }
 
 function showBookingTab(tab) {

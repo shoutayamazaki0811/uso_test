@@ -1,7 +1,7 @@
 // Swipe Cards Module for Uso App
 
 // Global variable for swipe card instance
-let swipeCard = null;
+window.swipeCard = null;
 
 class SwipeCards {
     constructor(container, cards) {
